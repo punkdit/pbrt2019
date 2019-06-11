@@ -24,12 +24,16 @@ theta polar angle
 Z atomic number (1 for Hydrogen, 2 for Helium, …)
 """
 
-f = Psi_nlm(2, 1, 0, r, phi, theta, 1)
+n = argv.get("n", 3)
+l = argv.get("l", 1)
+m = argv.get("m", 0)
+f = Psi_nlm(n, l, m, r, phi, theta, 1)
 print("psi(r, phi, theta) =", f)
 
 
-vmin = -30.
-vmax = 30.
+vmin = -15. * n
+vmax = 15. * n
+
 N = 32
 delta = (vmax-vmin)/N
 vals = list(numpy.arange(vmin, vmax, delta))
