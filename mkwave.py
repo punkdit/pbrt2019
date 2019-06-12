@@ -27,6 +27,7 @@ Z atomic number (1 for Hydrogen, 2 for Helium, …)
 n = argv.get("n", 3)
 l = argv.get("l", 1)
 m = argv.get("m", 0)
+density = argv.get("density", 1.0)
 f = Psi_nlm(n, l, m, r, phi, theta, 1)
 print("psi(r, phi, theta) =", f)
 
@@ -38,7 +39,6 @@ N = 32
 delta = (vmax-vmin)/N
 vals = list(numpy.arange(vmin, vmax, delta))
 nx = ny = nz = len(vals)
-sup = 0.
 
 data = []
 for x in vals:
@@ -51,11 +51,13 @@ for x in vals:
     _theta = acos(z/_r)
     val = f.evalf(subs={r:_r, phi:_phi, theta:_theta})
     val = complex(val)
-    val = 10*abs(val)
-    if val > sup:
-        sup = val
+    val = abs(val)
     data.append(val)
-print("sup:", sup)
+
+data = numpy.array(data)
+data *= density / data.max()
+
+print("sup:", data.max())
 
 s = ' '.join(str(v) for v in data)
 
